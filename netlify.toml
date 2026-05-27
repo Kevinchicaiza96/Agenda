@@ -5,12 +5,6 @@
 [build.environment]
   NODE_VERSION = "20"
 
-[[plugins]]
-  package = "@netlify/angular-runtime"
-
-  [plugins.inputs]
-    ssr = false
-
 [[redirects]]
   from = "/*"
   to = "/index.html"

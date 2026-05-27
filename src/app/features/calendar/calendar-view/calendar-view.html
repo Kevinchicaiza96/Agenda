@@ -1,0 +1,127 @@
+<div class="calendar-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Calendario</h1>
+      <p>{{ eventService.events().length }} eventos registrados</p>
+    </div>
+    <button mat-flat-button (click)="openDialog()">
+      <mat-icon>add</mat-icon> Nuevo evento
+    </button>
+  </div>
+
+  <div class="calendar-layout">
+
+    <!-- Calendario -->
+    <div class="calendar-card card">
+
+      <!-- Navegación -->
+      <div class="cal-nav">
+        <button mat-icon-button (click)="prevMonth()">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <div class="cal-nav-center">
+          <h3 class="month-name">{{ monthName() | titlecase }}</h3>
+          <button mat-button class="today-btn" (click)="goToday()">Hoy</button>
+        </div>
+        <button mat-icon-button (click)="nextMonth()">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+
+      <!-- Días de la semana -->
+      <div class="weekdays">
+        @for (day of weekDays; track day) {
+          <div class="weekday">{{ day }}</div>
+        }
+      </div>
+
+      <!-- Grilla -->
+      <div class="days-grid">
+        @for (day of calendarDays(); track day.date.toISOString()) {
+          <div class="day-cell"
+               [class.today]="day.isToday"
+               [class.other-month]="!day.isCurrentMonth"
+               [class.selected]="selectedDay()?.toDateString() === day.date.toDateString()"
+               (click)="selectDay(day)">
+
+            <span class="day-number">{{ day.date.getDate() }}</span>
+
+            <div class="day-events">
+              @for (event of day.events.slice(0, 2); track event.id) {
+                <div class="event-dot-bar"
+                     [style.background]="event.color"
+                     [title]="event.title">
+                  {{ event.title }}
+                </div>
+              }
+              @if (day.events.length > 2) {
+                <span class="more-events">+{{ day.events.length - 2 }}</span>
+              }
+            </div>
+
+          </div>
+        }
+      </div>
+
+    </div>
+
+    <!-- Panel lateral del día seleccionado -->
+    <div class="day-panel card">
+
+      @if (selectedDay()) {
+        <div class="day-panel-header">
+          <h3>{{ selectedDay() | date:"EEEE d 'de' MMMM" : '' : 'es' | titlecase }}</h3>
+          <button mat-icon-button (click)="openDialog()" title="Agregar evento">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+
+        @if (selectedDayEvents().length === 0) {
+          <div class="day-empty">
+            <mat-icon>event_available</mat-icon>
+            <p>Sin eventos este día</p>
+            <button mat-stroked-button (click)="openDialog()">
+              Agregar evento
+            </button>
+          </div>
+        } @else {
+          <div class="day-events-list">
+            @for (event of selectedDayEvents(); track event.id) {
+              <div class="day-event-item">
+                <div class="event-color-bar" [style.background]="event.color"></div>
+                <div class="event-details">
+                  <p class="event-name">{{ event.title }}</p>
+                  @if (!event.allDay) {
+                    <p class="event-time">{{ event.startTime }} — {{ event.endTime }}</p>
+                  } @else {
+                    <p class="event-time">Todo el día</p>
+                  }
+                  @if (event.description) {
+                    <p class="event-desc">{{ event.description }}</p>
+                  }
+                </div>
+                <div class="event-item-actions">
+                  <button mat-icon-button (click)="openDialog(event)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button (click)="deleteEvent(event.id)">
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+
+      } @else {
+        <div class="day-empty">
+          <mat-icon>calendar_month</mat-icon>
+          <p>Selecciona un día para ver sus eventos</p>
+        </div>
+      }
+
+    </div>
+
+  </div>
+</div>

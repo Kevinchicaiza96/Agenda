@@ -1,0 +1,27 @@
+<nav class="dock">
+  <div class="dock-logo">
+    <span>Ag</span>
+  </div>
+
+  <div class="dock-divider"></div>
+
+  @for (item of navItems; track item.route) {
+    <a class="dock-item"
+       [routerLink]="item.route"
+       routerLinkActive="active">
+      <div class="dock-icon-wrap">
+        <span class="material-symbols-rounded">{{ item.icon }}</span>
+        @if (item.badge === 'pending' && taskService.pendingCount() > 0) {
+          <span class="dock-badge">{{ taskService.pendingCount() }}</span>
+        }
+      </div>
+      <span class="dock-label">{{ item.label }}</span>
+    </a>
+  }
+
+  <div class="dock-spacer"></div>
+
+  <div class="dock-avatar">
+    <span class="material-symbols-rounded">person</span>
+  </div>
+</nav>

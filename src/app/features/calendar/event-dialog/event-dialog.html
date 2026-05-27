@@ -1,0 +1,75 @@
+<div class="dialog-container">
+
+  <div class="dialog-header">
+    <h2>{{ isEditing ? 'Editar evento' : 'Nuevo evento' }}</h2>
+    <button mat-icon-button (click)="cancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="dialog-form">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title" placeholder="Nombre del evento" />
+      <mat-error>El título es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description"
+                placeholder="Detalles opcionales..."
+                rows="2"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date" />
+      <mat-datepicker-toggle matIconSuffix [for]="picker" />
+      <mat-datepicker #picker />
+    </mat-form-field>
+
+    <div class="allday-toggle">
+      <mat-checkbox formControlName="allDay">Todo el día</mat-checkbox>
+    </div>
+
+    @if (!form.value.allDay) {
+      <div class="form-row">
+        <mat-form-field appearance="outline">
+          <mat-label>Hora inicio</mat-label>
+          <input matInput type="time" formControlName="startTime" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Hora fin</mat-label>
+          <input matInput type="time" formControlName="endTime" />
+        </mat-form-field>
+      </div>
+    }
+
+    <div class="color-section">
+      <p class="color-label">Color del evento</p>
+      <div class="color-options">
+        @for (c of colors; track c) {
+          <button type="button"
+                  class="color-btn"
+                  [style.background]="c"
+                  [class.selected]="form.value.color === c"
+                  (click)="selectColor(c)">
+            @if (form.value.color === c) {
+              <mat-icon>check</mat-icon>
+            }
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="dialog-actions">
+      <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
+      <button mat-flat-button type="submit" [disabled]="form.invalid">
+        {{ isEditing ? 'Guardar' : 'Crear evento' }}
+      </button>
+    </div>
+
+  </form>
+</div>

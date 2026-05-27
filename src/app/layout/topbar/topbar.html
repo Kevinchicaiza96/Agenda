@@ -1,0 +1,81 @@
+<header class="topbar">
+  <div class="topbar-inner">
+
+    <!-- Logo -->
+    <div class="topbar-logo">
+      <div class="logo-mark">Ag</div>
+      <span class="logo-name">Agenda</span>
+    </div>
+
+    <!-- Navegación -->
+    <nav class="topbar-nav">
+      @for (item of navItems; track item.route) {
+        <a class="nav-link"
+           [routerLink]="item.route"
+           routerLinkActive="active">
+          <span class="material-symbols-rounded">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+          @if (item.badge === 'pending' && taskService.pendingCount() > 0) {
+            <span class="nav-badge">{{ taskService.pendingCount() }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <!-- Búsqueda -->
+    <button class="search-trigger" (click)="openSearch()">
+      <span class="material-symbols-rounded">search</span>
+      <span class="search-trigger-text">Buscar...</span>
+      <kbd>⌘K</kbd>
+    </button>
+
+    <!-- Acciones -->
+    <div class="topbar-actions">
+      <span class="topbar-date">{{ today | date:"EEE d MMM" }}</span>
+
+      <button mat-icon-button
+              [matMenuTriggerFor]="notifMenu"
+              class="action-btn"
+              [class.has-notifs]="notifCount() > 0">
+        <mat-icon [matBadge]="notifCount() > 0 ? notifCount() : null"
+                  matBadgeColor="warn"
+                  matBadgeSize="small"
+                  aria-hidden="false">
+          notifications_none
+        </mat-icon>
+      </button>
+
+      <mat-menu #notifMenu="matMenu">
+        <div class="notif-panel" (click)="$event.stopPropagation()">
+          <div class="notif-header">
+            <span>Notificaciones</span>
+            @if (notifCount() > 0) {
+              <span class="notif-count">{{ notifCount() }}</span>
+            }
+          </div>
+          @if (notifications().length === 0) {
+            <div class="notif-empty">
+              <mat-icon>check_circle</mat-icon>
+              <p>Todo al día</p>
+            </div>
+          } @else {
+            <div class="notif-list">
+              @for (n of notifications(); track n.taskId) {
+                <a class="notif-item" routerLink="/tasks">
+                  <div class="notif-dot {{ n.type }}"></div>
+                  <div class="notif-info">
+                    <p class="notif-title">{{ n.title }}</p>
+                    <p class="notif-sub">{{ n.type === 'overdue' ? 'Vencida' : 'Vence hoy' }}</p>
+                  </div>
+                </a>
+              }
+            </div>
+          }
+        </div>
+      </mat-menu>
+
+      <div class="topbar-avatar">K</div>
+    </div>
+
+  </div>
+</header>

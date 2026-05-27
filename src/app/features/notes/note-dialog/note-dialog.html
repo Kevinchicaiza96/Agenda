@@ -1,0 +1,58 @@
+<div class="dialog-container note-{{ form.value.color }}">
+
+  <div class="dialog-header">
+    <h2>{{ isEditing ? 'Editar nota' : 'Nueva nota' }}</h2>
+    <button mat-icon-button (click)="cancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="dialog-form">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Título (opcional)</mat-label>
+      <input matInput formControlName="title" placeholder="Título de la nota" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Contenido</mat-label>
+      <textarea matInput formControlName="content"
+                placeholder="Escribe tu nota aquí..."
+                rows="5"></textarea>
+      <mat-error>El contenido es requerido</mat-error>
+    </mat-form-field>
+
+    <!-- Selector de color -->
+    <div class="color-section">
+      <p class="color-label">Color</p>
+      <div class="color-options">
+        @for (c of colors; track c.value) {
+          <button type="button"
+                  class="color-btn color-{{ c.value }}"
+                  [class.selected]="form.value.color === c.value"
+                  (click)="selectColor(c.value)"
+                  [title]="c.label">
+            @if (form.value.color === c.value) {
+              <mat-icon>check</mat-icon>
+            }
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Pin -->
+    <div class="pin-toggle" (click)="form.patchValue({ pinned: !form.value.pinned })">
+      <mat-icon>{{ form.value.pinned ? 'push_pin' : 'push_pin' }}</mat-icon>
+      <span>{{ form.value.pinned ? 'Fijada' : 'Fijar nota' }}</span>
+      <div class="toggle-switch" [class.on]="form.value.pinned"></div>
+    </div>
+
+    <div class="dialog-actions">
+      <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
+      <button mat-flat-button type="submit" [disabled]="form.invalid">
+        {{ isEditing ? 'Guardar' : 'Crear nota' }}
+      </button>
+    </div>
+
+  </form>
+</div>

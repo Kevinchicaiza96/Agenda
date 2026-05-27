@@ -1,0 +1,131 @@
+.notes-page {
+  max-width: 1100px;
+}
+
+.notes-section {
+  margin-bottom: 28px;
+}
+
+.section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #a8a29e;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin: 0 0 12px;
+
+  mat-icon { font-size: 15px; width: 15px; height: 15px; }
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.note-card {
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+
+    .note-actions { opacity: 1; }
+  }
+
+  &.note-yellow { background: #fef9c3; border-color: #fde68a; }
+  &.note-blue   { background: #dbeafe; border-color: #bfdbfe; }
+  &.note-green  { background: #dcfce7; border-color: #bbf7d0; }
+  &.note-pink   { background: #fce7f3; border-color: #fbcfe8; }
+  &.note-purple { background: #f3e8ff; border-color: #e9d5ff; }
+}
+
+.note-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.note-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1c1917;
+  flex: 1;
+  line-height: 1.3;
+}
+
+.note-actions {
+  display: flex;
+  opacity: 0;
+  transition: opacity 0.15s;
+  margin: -8px -8px 0 0;
+
+  button {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+
+    mat-icon { font-size: 15px; color: #78716c; }
+  }
+}
+
+.note-content {
+  font-size: 13px;
+  color: #44403c;
+  margin: 0 0 10px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.note-date {
+  font-size: 10px;
+  color: #a8a29e;
+  margin: 0;
+  font-family: var(--font-mono);
+}
+
+// Empty state
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 80px 20px;
+  gap: 10px;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #f5f5f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+
+  mat-icon { font-size: 28px; width: 28px; height: 28px; color: #d6d3d1; }
+}
+
+.empty-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1c1917;
+  margin: 0;
+}
+
+.empty-sub {
+  font-size: 13px;
+  color: #a8a29e;
+  margin: 0 0 8px;
+}

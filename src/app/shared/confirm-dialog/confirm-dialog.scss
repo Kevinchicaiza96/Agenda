@@ -1,0 +1,66 @@
+.confirm-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 28px 24px;
+  text-align: center;
+  font-family: var(--font-main);
+  max-width: 360px;
+}
+
+.confirm-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+
+  mat-icon {
+    font-size: 26px;
+    width: 26px;
+    height: 26px;
+  }
+
+  &.danger {
+    background: #fee2e2;
+    mat-icon { color: #dc2626; }
+  }
+
+  &.warning {
+    background: #fef3c7;
+    mat-icon { color: #d97706; }
+  }
+}
+
+.confirm-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1c1917;
+  margin: 0 0 8px;
+}
+
+.confirm-message {
+  font-size: 13px;
+  color: #78716c;
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-danger {
+  background: #dc2626 !important;
+  color: white !important;
+}
+
+.btn-warning {
+  background: #d97706 !important;
+  color: white !important;
+}

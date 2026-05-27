@@ -1,0 +1,127 @@
+.dialog-container {
+  font-family: var(--font-main);
+  transition: background 0.2s ease;
+
+  &.note-yellow { --note-tint: #fef9c3; }
+  &.note-blue   { --note-tint: #dbeafe; }
+  &.note-green  { --note-tint: #dcfce7; }
+  &.note-pink   { --note-tint: #fce7f3; }
+  &.note-purple { --note-tint: #f3e8ff; }
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #e7e5e4;
+
+  h2 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 400;
+    color: #1c1917;
+    margin: 0;
+  }
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 24px;
+  gap: 4px;
+
+  mat-form-field { width: 100%; }
+}
+
+.color-section {
+  margin: 4px 0 12px;
+}
+
+.color-label {
+  font-size: 12px;
+  color: #78716c;
+  margin: 0 0 8px;
+  font-weight: 500;
+}
+
+.color-options {
+  display: flex;
+  gap: 8px;
+}
+
+.color-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+
+  mat-icon { font-size: 16px; width: 16px; height: 16px; color: #1c1917; }
+
+  &.selected { border-color: #1c1917; transform: scale(1.15); }
+
+  &.color-yellow { background: #fef9c3; }
+  &.color-blue   { background: #dbeafe; }
+  &.color-green  { background: #dcfce7; }
+  &.color-pink   { background: #fce7f3; }
+  &.color-purple { background: #f3e8ff; }
+}
+
+.pin-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: #f5f5f4;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 8px;
+
+  &:hover { background: #e7e5e4; }
+
+  mat-icon { font-size: 18px; color: #78716c; }
+
+  span { font-size: 13px; color: #57534e; flex: 1; font-weight: 500; }
+}
+
+.toggle-switch {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: #d6d3d1;
+  position: relative;
+  transition: background 0.2s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s;
+  }
+
+  &.on {
+    background: #f59e0b;
+    &::after { transform: translateX(16px); }
+  }
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid #e7e5e4;
+}

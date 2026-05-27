@@ -1,0 +1,68 @@
+<div class="search-container" (keydown)="onKeydown($event)">
+
+  <div class="search-input-wrap">
+    <span class="material-symbols-rounded search-icon">search</span>
+    <input
+      #searchInput
+      class="search-input"
+      type="text"
+      placeholder="Buscar tareas, notas, eventos..."
+      [value]="query()"
+      (input)="onQueryChange($any($event.target).value)"
+      autofocus />
+    <kbd class="search-esc" (click)="close()">Esc</kbd>
+  </div>
+
+  @if (query().length >= 2) {
+    <div class="search-results">
+
+      @if (results().length === 0) {
+        <div class="search-empty">
+          <span class="material-symbols-rounded">search_off</span>
+          <p>Sin resultados para "<strong>{{ query() }}</strong>"</p>
+        </div>
+      } @else {
+        <p class="results-count">{{ results().length }} resultado{{ results().length !== 1 ? 's' : '' }}</p>
+
+        @for (result of results(); track result.id; let i = $index) {
+          <div class="result-item"
+               [class.active]="activeIndex() === i"
+               (click)="selectResult(result)"
+               (mouseenter)="activeIndex.set(i)">
+
+            <div class="result-icon-wrap" [class]="typeClass(result.type)">
+              <span class="material-symbols-rounded">{{ result.icon }}</span>
+            </div>
+
+            <div class="result-info">
+              <p class="result-title">{{ result.title }}</p>
+              <p class="result-sub">{{ result.subtitle }}</p>
+            </div>
+
+            <span class="result-type" [class]="typeClass(result.type)">
+              {{ typeLabel(result.type) }}
+            </span>
+
+            <span class="material-symbols-rounded result-arrow">arrow_forward</span>
+          </div>
+        }
+      }
+    </div>
+  } @else if (query().length === 0) {
+    <div class="search-hint">
+      <div class="hint-row">
+        <kbd>↑</kbd><kbd>↓</kbd>
+        <span>navegar</span>
+      </div>
+      <div class="hint-row">
+        <kbd>↵</kbd>
+        <span>ir a resultado</span>
+      </div>
+      <div class="hint-row">
+        <kbd>Esc</kbd>
+        <span>cerrar</span>
+      </div>
+    </div>
+  }
+
+</div>

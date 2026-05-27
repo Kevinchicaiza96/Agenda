@@ -1,0 +1,176 @@
+<div class="dashboard">
+
+  <!-- Saludo -->
+  <div class="greeting-section">
+    <div>
+      <h1 class="greeting">{{ greeting() }} 👋</h1>
+      <p class="greeting-sub">
+        {{ today | date:"EEEE, d 'de' MMMM 'de' yyyy" }}
+      </p>
+    </div>
+    <a mat-flat-button routerLink="/tasks">
+      <mat-icon>add</mat-icon>
+      Nueva tarea
+    </a>
+  </div>
+
+  @if (taskService.tasks().length > 0) {
+    <div class="progress-section card">
+      <div class="progress-header">
+        <span class="progress-label">Progreso general</span>
+        <span class="progress-percent">{{ progressPercent() }}%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill"
+          [style.width.%]="progressPercent()"
+          [class.complete]="progressPercent() === 100">
+        </div>
+      </div>
+      <div class="progress-meta">
+        <span>{{ taskService.doneCount() }} de {{ taskService.tasks().length }} tareas completadas</span>
+        @if (progressPercent() === 100) {
+          <span class="progress-congrats">¡Todo listo! 🎉</span>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Estadísticas -->
+  <div class="stats-grid">
+
+    <div class="stat-card card">
+      <div class="stat-icon pending">
+        <mat-icon>radio_button_unchecked</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ taskService.pendingCount() }}</span>
+        <span class="stat-label">Pendientes</span>
+      </div>
+    </div>
+
+    <div class="stat-card card">
+      <div class="stat-icon progress">
+        <mat-icon>pending</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ taskService.progressCount() }}</span>
+        <span class="stat-label">En progreso</span>
+      </div>
+    </div>
+
+    <div class="stat-card card">
+      <div class="stat-icon done">
+        <mat-icon>check_circle</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ taskService.doneCount() }}</span>
+        <span class="stat-label">Completadas</span>
+      </div>
+    </div>
+
+    <div class="stat-card card">
+      <div class="stat-icon notes">
+        <mat-icon>sticky_note_2</mat-icon>
+      </div>
+      <div class="stat-info">
+        <span class="stat-value">{{ noteService.totalCount() }}</span>
+        <span class="stat-label">Notas</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="dashboard-grid">
+
+    <!-- Tareas de hoy -->
+    <div class="dashboard-card card">
+      <div class="card-header">
+        <h3>Tareas de hoy</h3>
+        <a routerLink="/tasks" class="card-link">Ver todas</a>
+      </div>
+
+      @if (taskService.todayTasks().length === 0) {
+        <div class="empty-card">
+          <mat-icon>task_alt</mat-icon>
+          <p>No hay tareas para hoy</p>
+          <a routerLink="/tasks" mat-stroked-button>Agregar tarea</a>
+        </div>
+      } @else {
+        <div class="today-tasks">
+          @for (task of taskService.todayTasks(); track task.id) {
+            <div class="today-task-item" [class.done]="task.status === 'done'">
+              <span class="task-dot {{ task.priority }}"></span>
+              <span class="task-title">{{ task.title }}</span>
+              <span class="status-chip {{ task.status }}">
+                {{ task.status === 'pending' ? 'Pendiente' :
+                   task.status === 'progress' ? 'En progreso' : 'Hecha' }}
+              </span>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Eventos de hoy -->
+    <div class="dashboard-card card">
+      <div class="card-header">
+        <h3>Eventos de hoy</h3>
+        <a routerLink="/calendar" class="card-link">Ver calendario</a>
+      </div>
+
+      @if (eventService.todayEvents().length === 0) {
+        <div class="empty-card">
+          <mat-icon>calendar_month</mat-icon>
+          <p>No hay eventos para hoy</p>
+          <a routerLink="/calendar" mat-stroked-button>Ver calendario</a>
+        </div>
+      } @else {
+        <div class="today-events">
+          @for (event of eventService.todayEvents(); track event.id) {
+            <div class="event-item">
+              <span class="event-dot" [style.background]="event.color"></span>
+              <div class="event-info">
+                <span class="event-title">{{ event.title }}</span>
+                @if (!event.allDay) {
+                  <span class="event-time">{{ event.startTime }} — {{ event.endTime }}</span>
+                } @else {
+                  <span class="event-time">Todo el día</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Notas recientes -->
+    <div class="dashboard-card card">
+      <div class="card-header">
+        <h3>Notas recientes</h3>
+        <a routerLink="/notes" class="card-link">Ver todas</a>
+      </div>
+
+      @if (noteService.notes().length === 0) {
+        <div class="empty-card">
+          <mat-icon>sticky_note_2</mat-icon>
+          <p>No hay notas todavía</p>
+          <a routerLink="/notes" mat-stroked-button>Crear nota</a>
+        </div>
+      } @else {
+        <div class="recent-notes">
+          @for (note of noteService.notes().slice(0, 3); track note.id) {
+            <div class="note-preview note-{{ note.color }}">
+              @if (note.pinned) {
+                <mat-icon class="pin-icon">push_pin</mat-icon>
+              }
+              <p class="note-preview-title">{{ note.title || 'Sin título' }}</p>
+              <p class="note-preview-content">{{ note.content }}</p>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

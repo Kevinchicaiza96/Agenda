@@ -1,0 +1,67 @@
+<div class="dialog-container">
+
+  <div class="dialog-header">
+    <h2>{{ isEditing ? 'Editar tarea' : 'Nueva tarea' }}</h2>
+    <button mat-icon-button (click)="cancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="save()" class="dialog-form">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Título</mat-label>
+      <input matInput formControlName="title" placeholder="¿Qué hay que hacer?" />
+      <mat-error>El título es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="description"
+                placeholder="Detalles opcionales..."
+                rows="3"></textarea>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Prioridad</mat-label>
+        <mat-select formControlName="priority">
+          <mat-option value="high">🔴 Alta</mat-option>
+          <mat-option value="medium">🟡 Media</mat-option>
+          <mat-option value="low">🟢 Baja</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="status">
+          <mat-option value="pending">Pendiente</mat-option>
+          <mat-option value="progress">En progreso</mat-option>
+          <mat-option value="done">Completada</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha límite</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dueDate" />
+      <mat-datepicker-toggle matIconSuffix [for]="picker" />
+      <mat-datepicker #picker />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Etiquetas</mat-label>
+      <input matInput formControlName="tags"
+             placeholder="trabajo, urgente, personal (separadas por coma)" />
+      <mat-hint>Separa las etiquetas con comas</mat-hint>
+    </mat-form-field>
+
+    <div class="dialog-actions">
+      <button mat-stroked-button type="button" (click)="cancel()">Cancelar</button>
+      <button mat-flat-button type="submit" [disabled]="form.invalid">
+        {{ isEditing ? 'Guardar cambios' : 'Crear tarea' }}
+      </button>
+    </div>
+
+  </form>
+</div>

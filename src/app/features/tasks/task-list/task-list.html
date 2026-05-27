@@ -1,0 +1,99 @@
+<div class="tasks-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Tareas</h1>
+      <p>{{ taskService.tasks().length }} tareas ·
+         {{ taskService.pendingCount() }} pendientes ·
+         {{ taskService.doneCount() }} completadas</p>
+    </div>
+    <button mat-flat-button (click)="openDialog()">
+      <mat-icon>add</mat-icon> Nueva tarea
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filter-bar">
+    <button class="filter-btn" [class.active]="activeFilter() === 'all'"
+            (click)="setFilter('all')">
+      Todas <span class="filter-count">{{ taskService.tasks().length }}</span>
+    </button>
+    <button class="filter-btn" [class.active]="activeFilter() === 'pending'"
+            (click)="setFilter('pending')">
+      Pendientes <span class="filter-count">{{ taskService.pendingCount() }}</span>
+    </button>
+    <button class="filter-btn" [class.active]="activeFilter() === 'progress'"
+            (click)="setFilter('progress')">
+      En progreso <span class="filter-count">{{ taskService.progressCount() }}</span>
+    </button>
+    <button class="filter-btn" [class.active]="activeFilter() === 'done'"
+            (click)="setFilter('done')">
+      Completadas <span class="filter-count">{{ taskService.doneCount() }}</span>
+    </button>
+  </div>
+
+  <!-- Lista -->
+  <div class="task-grid">
+    @for (task of filteredTasks(); track task.id) {
+      <div class="task-card card" [class.is-done]="task.status === 'done'">
+
+        <div class="task-card-header">
+          <span class="priority-chip {{ task.priority }}">
+            {{ priorityLabel(task.priority) }}
+          </span>
+          <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-btn">
+            <mat-icon>more_horiz</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openDialog(task)">
+              <mat-icon>edit</mat-icon> Editar
+            </button>
+            <button mat-menu-item (click)="deleteTask(task.id, task.title)" class="delete-item">
+              <mat-icon>delete_outline</mat-icon> Eliminar
+            </button>
+          </mat-menu>
+        </div>
+
+        <h3 class="task-title">{{ task.title }}</h3>
+
+        @if (task.description) {
+          <p class="task-desc">{{ task.description }}</p>
+        }
+
+        @if (task.tags.length > 0) {
+          <div class="task-tags">
+            @for (tag of task.tags; track tag) {
+              <span class="tag">#{{ tag }}</span>
+            }
+          </div>
+        }
+
+        <div class="task-footer">
+          <span class="status-chip {{ task.status }}" (click)="cycleStatus(task)"
+                title="Click para cambiar estado">
+            {{ statusLabel(task.status) }}
+          </span>
+          @if (task.dueDate) {
+            <span class="due-date" [class.overdue]="isOverdue(task)">
+              <mat-icon>schedule</mat-icon>
+              {{ task.dueDate | date:'d MMM' }}
+            </span>
+          }
+        </div>
+
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <div class="empty-icon">
+          <mat-icon>checklist</mat-icon>
+        </div>
+        <p class="empty-title">No hay tareas aquí</p>
+        <p class="empty-sub">Crea tu primera tarea para empezar</p>
+        <button mat-flat-button (click)="openDialog()">
+          <mat-icon>add</mat-icon> Crear tarea
+        </button>
+      </div>
+    }
+  </div>
+
+</div>

@@ -1,0 +1,47 @@
+.dialog-container {
+  padding: 0;
+  font-family: var(--font-main);
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #e7e5e4;
+
+  h2 {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 20px;
+    font-weight: 400;
+    color: #1c1917;
+    margin: 0;
+  }
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 24px;
+  gap: 4px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px solid #e7e5e4;
+}

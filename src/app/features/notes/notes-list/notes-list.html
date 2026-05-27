@@ -1,0 +1,92 @@
+<div class="notes-page">
+
+  <div class="page-header">
+    <div>
+      <h1>Notas</h1>
+      <p>{{ noteService.totalCount() }} notas ·
+         {{ noteService.pinned().length }} fijadas</p>
+    </div>
+    <button mat-flat-button (click)="openDialog()">
+      <mat-icon>add</mat-icon> Nueva nota
+    </button>
+  </div>
+
+  <!-- Fijadas -->
+  @if (noteService.pinned().length > 0) {
+    <div class="notes-section">
+      <p class="section-label">
+        <mat-icon>push_pin</mat-icon> Fijadas
+      </p>
+      <div class="notes-grid">
+        @for (note of noteService.pinned(); track note.id) {
+          <div class="note-card note-{{ note.color }}">
+            <div class="note-header">
+              <span class="note-title">{{ note.title || 'Sin título' }}</span>
+              <div class="note-actions">
+                <button mat-icon-button (click)="togglePin(note.id, true)" title="Desfijar">
+                  <mat-icon>push_pin</mat-icon>
+                </button>
+                <button mat-icon-button (click)="openDialog(note)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteNote(note.id, note.title)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            </div>
+            <p class="note-content">{{ note.content }}</p>
+            <p class="note-date">{{ note.updatedAt | date:'d MMM, HH:mm' }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Resto de notas -->
+  @if (noteService.unpinned().length > 0) {
+    <div class="notes-section">
+      @if (noteService.pinned().length > 0) {
+        <p class="section-label">
+          <mat-icon>notes</mat-icon> Otras notas
+        </p>
+      }
+      <div class="notes-grid">
+        @for (note of noteService.unpinned(); track note.id) {
+          <div class="note-card note-{{ note.color }}">
+            <div class="note-header">
+              <span class="note-title">{{ note.title || 'Sin título' }}</span>
+              <div class="note-actions">
+                <button mat-icon-button (click)="togglePin(note.id, false)" title="Fijar">
+                  <mat-icon>push_pin</mat-icon>
+                </button>
+                <button mat-icon-button (click)="openDialog(note)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteNote(note.id, note.title)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </div>
+            </div>
+            <p class="note-content">{{ note.content }}</p>
+            <p class="note-date">{{ note.updatedAt | date:'d MMM, HH:mm' }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- Empty state -->
+  @if (noteService.totalCount() === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">
+        <mat-icon>sticky_note_2</mat-icon>
+      </div>
+      <p class="empty-title">No hay notas todavía</p>
+      <p class="empty-sub">Captura tus ideas rápidamente</p>
+      <button mat-flat-button (click)="openDialog()">
+        <mat-icon>add</mat-icon> Crear primera nota
+      </button>
+    </div>
+  }
+
+</div>

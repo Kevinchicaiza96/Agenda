@@ -1,0 +1,132 @@
+.dock {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 72px;
+  height: 100vh;
+  background: var(--sidebar-bg);
+  border-right: 1px solid #f0f0f0;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  z-index: 100;
+  gap: 2px;
+}
+
+.dock-logo {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.dock-divider {
+  width: 28px;
+  height: 1px;
+  background: #f0f0f0;
+  margin: 6px 0 8px;
+  flex-shrink: 0;
+}
+
+.dock-item {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: #ccc;
+  transition: all 0.2s ease;
+  position: relative;
+  flex-shrink: 0;
+
+  &:hover {
+    background: var(--sidebar-item-hover);
+    color: #888;
+  }
+
+  &.active {
+    background: var(--sidebar-item-active);
+    color: var(--accent);
+
+    .dock-icon-wrap .material-symbols-rounded {
+      font-variation-settings: 'FILL' 1, 'wght' 400;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -1px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 24px;
+      background: var(--accent);
+      border-radius: 0 3px 3px 0;
+    }
+  }
+}
+
+.dock-icon-wrap {
+  position: relative;
+  .material-symbols-rounded {
+    font-size: 20px;
+    font-variation-settings: 'FILL' 0, 'wght' 300;
+  }
+}
+
+.dock-badge {
+  position: absolute;
+  top: -5px;
+  right: -6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 800;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  font-family: var(--font-mono);
+}
+
+.dock-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  line-height: 1;
+}
+
+.dock-spacer { flex: 1; }
+
+.dock-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f0fdf4;
+  border: 1px solid #d1fae5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  .material-symbols-rounded { font-size: 16px; }
+}

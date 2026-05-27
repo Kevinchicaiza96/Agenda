@@ -1,0 +1,17 @@
+[build]
+  command = "ng build"
+  publish = "dist/agendia/browser"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/angular-runtime"
+
+  [plugins.inputs]
+    ssr = false
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
